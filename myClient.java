@@ -8,8 +8,8 @@ public class myClient {
 
         try (
             Socket clientSocket = new Socket(serverHostname, serverPort);
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+            DataInputStream in = new DataInputStream(clientSocket.getInputStream());
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))
         ) {
             System.out.println("Connected to server " + serverHostname + " on port " + serverPort);
@@ -21,11 +21,11 @@ public class myClient {
             String password = userInput.readLine();
 
             // Send username and password to the server
-            out.println(username);
-            out.println(password);
+            out.writeUTF(username);
+            out.writeUTF(password);
 
             // Read response from the server
-            String serverResponse = in.readLine();
+            String serverResponse = in.readUTF();
             System.out.println("Server says: " + serverResponse);
         } catch (UnknownHostException e) {
             System.err.println("Unknown host: " + serverHostname);
