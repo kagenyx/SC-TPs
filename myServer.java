@@ -6,6 +6,8 @@ public class myServer{
     private String adm_user = "user";
     private String adm_password = "123";
 
+    private File recieve = new File("recieve.txt");
+
     public static void main(String[] args) {
         System.out.println("servidor: main");
         myServer server = new myServer();
@@ -69,6 +71,14 @@ public class myServer{
                 if (user.length() != 0){
                     String caralhete = "caralhete, deu";
                     outStream.writeUTF(caralhete);
+
+                    FileOutputStream fos = new FileOutputStream(recieve);
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = inStream.read(buffer)) != -1) {
+                        fos.write(buffer, 0, bytesRead);
+                    }
+                    fos.close();
                 }
                 else {
 

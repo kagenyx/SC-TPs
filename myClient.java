@@ -5,6 +5,7 @@ public class myClient {
     public static void main(String[] args) {
         String serverHostname = "localhost";
         int serverPort = 23456;
+        File send = new File("send.txt");
 
         try (
             Socket clientSocket = new Socket(serverHostname, serverPort);
@@ -27,6 +28,14 @@ public class myClient {
             // Read response from the server
             String serverResponse = in.readUTF();
             System.out.println("Server says: " + serverResponse);
+
+            FileInputStream fin = new FileInputStream(send);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fin.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            fin.close();
         } catch (UnknownHostException e) {
             System.err.println("Unknown host: " + serverHostname);
             e.printStackTrace();
