@@ -86,7 +86,6 @@ public class myServer{
 
 				outStream.close();
 				inStream.close();
- 			
 				socket.close();
 
 			} catch (IOException e) {
